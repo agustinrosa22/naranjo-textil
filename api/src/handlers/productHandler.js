@@ -15,6 +15,7 @@ const createProductHandler = async (req, res) => {
       fecha,
       costo,
       costoPrevio,
+      regPrevio
     } = req.body;
 
     // Llama al controlador para crear el producto
@@ -29,6 +30,7 @@ const createProductHandler = async (req, res) => {
       fecha,
       costo,
       costoPrevio,
+      regPrevio
     });
 
     // Responde con el nuevo producto creado

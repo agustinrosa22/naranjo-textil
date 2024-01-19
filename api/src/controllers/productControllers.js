@@ -13,6 +13,7 @@ const createProduct = async ({
     fecha,
     costo,
     costoPrevio,
+    regPrevio
   }) => {
   const created = await Product.create({ nombreProducto,
     image,
@@ -23,7 +24,8 @@ const createProduct = async ({
     cantidad,
     fecha,
     costo,
-    costoPrevio,})
+    costoPrevio,
+    regPrevio})
 
     return created
   };
