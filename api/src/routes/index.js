@@ -4,6 +4,7 @@ const {
     getAllProductHandler,
     getProductByIdHandler,
     getProductByNameHandler,
+    editProductHandler ,
 }=require('../handlers/productHandler')
 
 // Importar todos los routers;
@@ -14,9 +15,10 @@ const router = Router();
 // Configurar los routers
 router.post('/product/', createProductHandler);
 router.get('/product/', getAllProductHandler);
-router.get('/products/:id', getProductByIdHandler);
+router.get('/product/:id', getProductByIdHandler);
+router.put('/product/:id', editProductHandler);
 
 // Ruta para obtener un producto por nombre
-router.get('/products/name/:name', getProductByNameHandler);
+router.get('/product/name/:name', getProductByNameHandler);
 
 module.exports = router;

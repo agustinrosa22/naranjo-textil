@@ -3,7 +3,9 @@ const {
   createProduct, 
   getAllProduct,
   getProductById,
-  getProductByName, } = require('../controllers/productControllers');
+  getProductByName, 
+  editProduct,
+} = require('../controllers/productControllers');
 
 const createProductHandler = async (req, res) => {
   try {
@@ -124,10 +126,25 @@ const getProductByNameHandler = async (req, res) => {
   }
 };
 
+const editProductHandler = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Llamar al controlador para editar el producto
+    const editedProduct = await editProduct(req, res);
+
+    // Manejar la respuesta HTTP exitosa
+    return res.status(200).json(editedProduct);
+  } catch (error) {
+    // Manejar el error y enviar la respuesta HTTP correspondiente
+    return res.status(404).json({ error: error.message });
+  }
+};
 module.exports = {
   createProductHandler,
   getAllProductHandler,
   getProductByIdHandler,
-  getProductByNameHandler
+  getProductByNameHandler,
+  editProductHandler
 };
     

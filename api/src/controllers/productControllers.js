@@ -51,9 +51,55 @@ const getProductByName = async (productName) => {
   });
   return product;
 }
+
+const editProduct = async (req, res) => {
+  const { id } = req.params;
+  const {
+    nombreProducto,
+    medidas,
+    proveedor,
+    proveedorId,
+    cantidad,
+    fecha,
+    costo,
+    costoPrevio,
+  } = req.body;
+
+  try {
+    // Buscar el producto por ID
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      throw new Error('Producto no encontrado');
+    }
+
+    // Actualizar las propiedades del producto
+    product.nombreProducto = nombreProducto;
+    product.medidas = medidas;
+    product.proveedor = proveedor;
+    product.proveedorId = proveedorId;
+    product.cantidad = cantidad;
+    product.fecha = fecha;
+    product.costo = costo;
+    product.costoPrevio = costoPrevio;
+
+    // Guardar los cambios
+    await product.save();
+
+    return product;
+  } catch (error) {
+    // Puedes loguear el error si es necesario
+    console.error(error);
+
+    // Dejar que el handler maneje la respuesta HTTP
+    throw error;
+  }
+};
+
   module.exports = {
     createProduct,
     getAllProduct,
     getProductById,
     getProductByName,
+    editProduct
   };
