@@ -35,7 +35,25 @@ const createProduct = async ({
 
     return databaseProduct
   }
+
+  // Obtener un producto por ID
+const getProductById = async (productId) => {
+  const product = await Product.findByPk(productId);
+  return product;
+}
+
+// Obtener un producto por nombre
+const getProductByName = async (productName) => {
+  const product = await Product.findOne({
+    where: {
+      nombreProducto: productName,
+    },
+  });
+  return product;
+}
   module.exports = {
     createProduct,
     getAllProduct,
+    getProductById,
+    getProductByName,
   };

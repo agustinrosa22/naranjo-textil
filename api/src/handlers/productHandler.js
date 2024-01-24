@@ -1,5 +1,9 @@
 const axios = require('axios');
-const { createProduct, getAllProduct } = require('../controllers/productControllers');
+const { 
+  createProduct, 
+  getAllProduct,
+  getProductById,
+  getProductByName, } = require('../controllers/productControllers');
 
 const createProductHandler = async (req, res) => {
   try {
@@ -70,8 +74,60 @@ const getAllProductHandler = async (req, res) => {
   }
 };
 
+// Manejador para obtener un producto por ID
+const getProductByIdHandler = async (req, res) => {
+  const productId = req.params.id;
+  try {
+    const product = await getProductById(productId);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Producto no encontrado',
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Producto obtenido exitosamente',
+      data: product,
+    });
+  } catch (error) {
+    console.error('Error al obtener producto por ID:', error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener producto por ID',
+    });
+  }
+};
+
+// Manejador para obtener un producto por nombre
+const getProductByNameHandler = async (req, res) => {
+  const productName = req.params.name;
+  try {
+    const product = await getProductByName(productName);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Producto no encontrado',
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Producto obtenido exitosamente',
+      data: product,
+    });
+  } catch (error) {
+    console.error('Error al obtener producto por nombre:', error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener producto por nombre',
+    });
+  }
+};
+
 module.exports = {
   createProductHandler,
-  getAllProductHandler
+  getAllProductHandler,
+  getProductByIdHandler,
+  getProductByNameHandler
 };
     
