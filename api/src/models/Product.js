@@ -28,8 +28,14 @@ module.exports = (sequelize) => {
       defaultValue: 0,
     },
     fecha: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      type: DataTypes.STRING, // Usa STRING en lugar de DATE
+      defaultValue: () => {
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+          .toString()
+          .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+        return formattedDate;
+      },
     },
     costo: {
       type: DataTypes.FLOAT,
