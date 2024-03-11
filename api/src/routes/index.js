@@ -19,6 +19,6 @@ router.get('/product/:id', getProductByIdHandler);
 router.put('/product/:id', editProductHandler);
 
 // Ruta para obtener un producto por nombre
-router.get('/product/name/:name', getProductByNameHandler);
+router.get('/products/name/:name', getProductByNameHandler);
 
 module.exports = router;

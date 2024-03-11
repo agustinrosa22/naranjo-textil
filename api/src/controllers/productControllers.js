@@ -1,5 +1,7 @@
 const axios = require('axios')
 const {Product} = require('../db')
+const { Op } = require('sequelize');
+const sequelize = require('sequelize');
 require('dotenv').config()
 //crear producto faltan completar varios aspectos para la integridad de los productos
 const createProduct = async ({
@@ -44,13 +46,15 @@ const getProductById = async (productId) => {
 
 // Obtener un producto por nombre
 const getProductByName = async (productName) => {
-  const product = await Product.findOne({
-    where: {
-      nombreProducto: productName,
-    },
+  const product = await Product.findAll({
+    where: sequelize.where(
+      sequelize.fn('LOWER', sequelize.col('nombreProducto')),
+      'LIKE',
+      `%${productName.toLowerCase()}%`
+    )
   });
   return product;
-}
+};
 
 const editProduct = async (req, res) => {
   const { id } = req.params;
@@ -96,10 +100,11 @@ const editProduct = async (req, res) => {
   }
 };
 
+
   module.exports = {
     createProduct,
     getAllProduct,
     getProductById,
     getProductByName,
-    editProduct
+    editProduct,
   };
