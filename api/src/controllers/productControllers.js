@@ -15,7 +15,9 @@ const createProduct = async ({
     fecha,
     costo,
     costoPrevio,
-    regPrevio
+    regPrevio,
+    tipo,
+    clase
   }) => {
   const created = await Product.create({ nombreProducto,
     image,
@@ -27,7 +29,10 @@ const createProduct = async ({
     fecha,
     costo,
     costoPrevio,
-    regPrevio})
+    regPrevio,
+    tipo,
+    clase
+  })
 
     return created
   };
@@ -67,6 +72,11 @@ const editProduct = async (req, res) => {
     fecha,
     costo,
     costoPrevio,
+    tipo,
+    productoId,
+    regPrevio,
+    image,
+    clase,
   } = req.body;
 
   try {
@@ -86,6 +96,11 @@ const editProduct = async (req, res) => {
     product.fecha = fecha;
     product.costo = costo;
     product.costoPrevio = costoPrevio;
+    product.tipo = tipo;
+    product.productoId = productoId;
+    product.regPrevio = regPrevio;
+    product.image = image;
+    product.clase = clase;
 
     // Guardar los cambios
     await product.save();

@@ -15,7 +15,12 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     medidas: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON, // Cambiado a JSON para almacenar un objeto con alto y ancho
+      allowNull: false,
+      defaultValue: {
+        alto: 0,
+        ancho: 0,
+      },
     },
     proveedor: {
       type: DataTypes.STRING,
@@ -45,6 +50,12 @@ module.exports = (sequelize) => {
     },
     costoPrevio: {
       type: DataTypes.FLOAT,
+    },
+    tipo: {
+      type: DataTypes.STRING,
+    },
+    clase: {
+      type: DataTypes.STRING,
     },
     // Otros campos según sea necesario
   });
