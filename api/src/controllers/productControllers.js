@@ -76,7 +76,7 @@ const editProduct = async (req, res) => {
     productoId,
     regPrevio,
     image,
-    clase,
+    clase
   } = req.body;
 
   try {

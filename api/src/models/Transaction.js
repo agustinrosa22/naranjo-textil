@@ -9,6 +9,9 @@ module.exports = (sequelize) => {
     costo: {
       type: DataTypes.FLOAT,
     },
+    vendedor: {
+      type: DataTypes.STRING,
+    },
     fecha: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
