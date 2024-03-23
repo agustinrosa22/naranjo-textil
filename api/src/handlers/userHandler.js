@@ -1,4 +1,5 @@
-const { createUser } = require('../controllers/usersControllers')
+const { createUser,
+getAllUser } = require('../controllers/usersControllers')
 
 const createUserHandler = async (req, res) => {
     const { username, password, tipo } = req.body; // Obtén los datos del cuerpo de la solicitud
@@ -15,5 +16,28 @@ const createUserHandler = async (req, res) => {
       return res.status(500).json({ message: 'Error creating user' });
     }
   };
+
+  const getAllUsersHandler = async (req, res) => {
+    try {
+      // Llama al controlador para obtener todos los productos
+      const allUsers = await getAllUser();
   
-  module.exports = { createUserHandler };
+      // Responde con la lista de productos
+      res.status(200).json({
+        success: true,
+        message: 'Usuarios obtenidos exitosamente',
+        data: allUsers,
+      });
+    } catch (error) {
+      // Maneja errores y responde con un mensaje de error
+      console.error('Error al obtener todos los usuarios:', error.message);
+      res.status(500).json({
+        success: false,
+        message: 'Error al obtener todos los usuarios',
+      });
+    }
+  };
+  
+  module.exports = { createUserHandler,
+    getAllUsersHandler,
+   };
