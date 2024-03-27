@@ -11,6 +11,7 @@ const { createUserHandler,
  } = require('../handlers/userHandler')
 const { sellProductHandler } = require('../handlers/transactionHandler');
 const { loginController } = require('../controllers/usersControllers')
+const { filtrarProductos } = require('../controllers/productControllers')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -27,6 +28,7 @@ router.get('/product/', getAllProductHandler);
 router.get('/product/:id', getProductByIdHandler);
 router.get('/products/name/:name', getProductByNameHandler);
 router.get('/user/', getAllUsersHandler);
+router.get('/products/filter', filtrarProductos);
 
 router.put('/product/:id', editProductHandler);
 

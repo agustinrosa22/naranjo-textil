@@ -63,21 +63,7 @@ const getProductByName = async (productName) => {
 
 const editProduct = async (req, res) => {
   const { id } = req.params;
-  const {
-    nombreProducto,
-    medidas,
-    proveedor,
-    proveedorId,
-    cantidad,
-    fecha,
-    costo,
-    costoPrevio,
-    tipo,
-    productoId,
-    regPrevio,
-    image,
-    clase
-  } = req.body;
+  const updateFields = req.body; // Obtener los campos enviados en la solicitud
 
   try {
     // Buscar el producto por ID
@@ -87,20 +73,12 @@ const editProduct = async (req, res) => {
       throw new Error('Producto no encontrado');
     }
 
-    // Actualizar las propiedades del producto
-    product.nombreProducto = nombreProducto;
-    product.medidas = medidas;
-    product.proveedor = proveedor;
-    product.proveedorId = proveedorId;
-    product.cantidad = cantidad;
-    product.fecha = fecha;
-    product.costo = costo;
-    product.costoPrevio = costoPrevio;
-    product.tipo = tipo;
-    product.productoId = productoId;
-    product.regPrevio = regPrevio;
-    product.image = image;
-    product.clase = clase;
+    // Actualizar solo los campos que se envían en la solicitud
+    for (const key in updateFields) {
+      if (Object.hasOwnProperty.call(updateFields, key)) {
+        product[key] = updateFields[key];
+      }
+    }
 
     // Guardar los cambios
     await product.save();
@@ -115,6 +93,55 @@ const editProduct = async (req, res) => {
   }
 };
 
+const filtrarProductos = async (req, res) => {
+  try {
+    // Obtener los parámetros de la solicitud de búsqueda
+    const { medidas, tipo, clase, precioMin, precioMax } = req.query;
+
+    // Crear un objeto de opciones de búsqueda
+    const options = {};
+
+    // Filtrar por medidas si se proporciona
+    if (medidas) {
+      options.medidas = JSON.parse(medidas);
+    }
+
+    // Filtrar por tipo si se proporciona
+    if (tipo) {
+      options.tipo = tipo;
+    }
+
+    // Filtrar por clase si se proporciona
+    if (clase) {
+      options.clase = clase;
+    }
+
+    if (precioMin || precioMax) {
+      options.costo = {};
+      if (precioMin) {
+        options.costo[Op.gte] = precioMin;
+      }
+      if (precioMax) {
+        options.costo[Op.lte] = precioMax;
+      }
+    }
+
+
+    // Realizar la búsqueda utilizando los filtros proporcionados
+    const productosFiltrados = await Product.findAll({
+      where: options
+    });
+
+    // Devolver los resultados de la búsqueda
+    res.status(200).json(productosFiltrados);
+  } catch (error) {
+    // Manejar errores
+    console.error('Error al filtrar productos:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+
 
   module.exports = {
     createProduct,
@@ -122,4 +149,5 @@ const editProduct = async (req, res) => {
     getProductById,
     getProductByName,
     editProduct,
+    filtrarProductos,
   };
