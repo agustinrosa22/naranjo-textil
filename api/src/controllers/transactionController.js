@@ -37,6 +37,24 @@ const sellProduct = async (req, res, next) => {
   }
 };
 
+const getAllTransactions = async (req, res, next) => {
+  try {
+    // Consultar todas las transacciones
+    const transactions = await Transaction.findAll();
+
+    // Verificar si hay transacciones
+    if (!transactions || transactions.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron transacciones' });
+    }
+
+    // Devolver las transacciones encontradas
+    res.status(200).json({ transactions });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   sellProduct,
+  getAllTransactions,
 };

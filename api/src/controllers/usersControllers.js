@@ -30,7 +30,7 @@ const createUser = async ({
         const { username, password } = req.body;
   
         // Verifica si el usuario es admin
-        if (username === 'admin' && password === 'A1s2d3f4') {
+        if (username === 'admin' && password === 'Naranjo.20.23') {
           const user = {
             id: 1,
             username: 'admin',
@@ -42,7 +42,7 @@ const createUser = async ({
         }
   
         // Verifica si el usuario es vendedor
-        if (username === 'Vendedor' && password === 'Vendedor') {
+        if (username === 'Vendedor' && password === 'Naranjo.24') {
           const user = {
             id: 2,
             username: 'Vendedor',

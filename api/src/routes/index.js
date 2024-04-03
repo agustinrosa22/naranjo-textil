@@ -10,6 +10,7 @@ const { createUserHandler,
     getAllUsersHandler,
  } = require('../handlers/userHandler')
 const { sellProductHandler } = require('../handlers/transactionHandler');
+const { getAllTransactions } = require('../controllers/transactionController')
 const { loginController } = require('../controllers/usersControllers')
 const { filtrarProductos } = require('../controllers/productControllers')
 
@@ -29,6 +30,7 @@ router.get('/product/:id', getProductByIdHandler);
 router.get('/products/name/:name', getProductByNameHandler);
 router.get('/user/', getAllUsersHandler);
 router.get('/products/filter', filtrarProductos);
+router.get('/sell/', getAllTransactions);
 
 router.put('/product/:id', editProductHandler);
 
