@@ -1,4 +1,5 @@
 const { Transaction, Product } = require('../db');
+const { Op } = require('sequelize');
 
 const sellProduct = async (req, res, next) => {
   try {
@@ -39,8 +40,32 @@ const sellProduct = async (req, res, next) => {
 
 const getAllTransactions = async (req, res, next) => {
   try {
-    // Consultar todas las transacciones
-    const transactions = await Transaction.findAll();
+    const { startDate, endDate } = req.query;
+
+    // Definir opciones de consulta para filtrar por fechas
+    const options = {};
+    if (startDate && endDate) {
+      options.where = {
+        fecha: {
+          [Op.between]: [new Date(startDate), new Date(endDate)],
+        },
+      };
+    } else if (startDate) {
+      options.where = {
+        fecha: {
+          [Op.gte]: new Date(startDate),
+        },
+      };
+    } else if (endDate) {
+      options.where = {
+        fecha: {
+          [Op.lte]: new Date(endDate),
+        },
+      };
+    }
+
+    // Consultar las transacciones con las opciones de filtrado
+    const transactions = await Transaction.findAll(options);
 
     // Verificar si hay transacciones
     if (!transactions || transactions.length === 0) {
@@ -53,6 +78,9 @@ const getAllTransactions = async (req, res, next) => {
     next(error);
   }
 };
+
+//http://tu-servidor/api/transactions?startDate=2024-01-01&endDate=2024-01-31
+
 
 module.exports = {
   sellProduct,
