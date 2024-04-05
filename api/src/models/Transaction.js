@@ -19,6 +19,21 @@ module.exports = (sequelize) => {
     comentario: {
       type: DataTypes.STRING,
     },
+    nombreProducto: {
+      type: DataTypes.STRING,
+    },
+    image: {
+      type: DataTypes.STRING,
+    },
+    tipo: {
+      type: DataTypes.STRING,
+    },
+    clase: {
+      type: DataTypes.STRING,
+    },
+    costoPrevio: {
+      type: DataTypes.FLOAT,
+    },
     // Otros campos según sea necesario
   });
 

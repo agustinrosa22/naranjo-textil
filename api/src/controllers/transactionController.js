@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 const sellProduct = async (req, res, next) => {
   try {
-    const { productId, userId, cantidad, fecha, costo, vendedor, comentario } = req.body;
+    const { productId, userId, cantidad, fecha, costo, vendedor, comentario, nombreProducto, image, tipo, clase, costoPrevio } = req.body;
 
     // Verificar si el producto existe y está disponible
     const product = await Product.findByPk(productId);
@@ -26,6 +26,11 @@ const sellProduct = async (req, res, next) => {
       costo,
       vendedor,
       comentario,
+      nombreProducto, 
+      image, 
+      tipo, 
+      clase, 
+      costoPrevio, 
     });
 
     // Actualizar la cantidad de stock del producto
@@ -66,7 +71,7 @@ const getAllTransactions = async (req, res, next) => {
 
     // Consultar las transacciones con las opciones de filtrado
     const transactions = await Transaction.findAll(options);
-
+    // console.log(transactions)
     // Verificar si hay transacciones
     if (!transactions || transactions.length === 0) {
       return res.status(404).json({ message: 'No se encontraron transacciones' });
@@ -79,7 +84,7 @@ const getAllTransactions = async (req, res, next) => {
   }
 };
 
-//http://tu-servidor/api/transactions?startDate=2024-01-01&endDate=2024-01-31
+//http://tu-servidor/api/sell?startDate=2024-01-01&endDate=2024-01-31
 
 
 module.exports = {
