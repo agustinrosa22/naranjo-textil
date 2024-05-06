@@ -141,6 +141,27 @@ const filtrarProductos = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params; // Obtener el ID del producto a eliminar
+
+    // Buscar el producto por ID
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Eliminar el producto
+    await product.destroy();
+
+    // Responder con un mensaje de éxito
+    res.status(200).json({ message: 'Producto eliminado con éxito' });
+  } catch (error) {
+    console.error('Error al eliminar producto:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
 
 
   module.exports = {
@@ -150,4 +171,5 @@ const filtrarProductos = async (req, res) => {
     getProductByName,
     editProduct,
     filtrarProductos,
+    deleteProduct,
   };

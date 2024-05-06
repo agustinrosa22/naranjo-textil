@@ -10,9 +10,9 @@ const { createUserHandler,
     getAllUsersHandler,
  } = require('../handlers/userHandler')
 const { sellProductHandler } = require('../handlers/transactionHandler');
-const { getAllTransactions } = require('../controllers/transactionController')
+const { getAllTransactions, deleteTransaction } = require('../controllers/transactionController')
 const { loginController } = require('../controllers/usersControllers')
-const { filtrarProductos } = require('../controllers/productControllers')
+const { filtrarProductos, deleteProduct } = require('../controllers/productControllers')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -33,5 +33,8 @@ router.get('/products/filter', filtrarProductos);
 router.get('/sell/', getAllTransactions);
 
 router.put('/product/:id', editProductHandler);
+
+router.delete('/product/:id', deleteProduct); 
+router.delete('/transactions/:transactionId', deleteTransaction);
 
 module.exports = router;

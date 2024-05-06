@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 const sellProduct = async (req, res, next) => {
   try {
-    const { productId, userId, cantidad, fecha, costo, vendedor, comentario, nombreProducto, image, tipo, clase, costoPrevio } = req.body;
+    const { productId, userId, cantidad, fecha, costo, vendedor, comentario, nombreProducto, image, tipo, clase, proveedor, costoPrevio } = req.body;
 
     // Verificar si el producto existe y está disponible
     const product = await Product.findByPk(productId);
@@ -30,6 +30,7 @@ const sellProduct = async (req, res, next) => {
       image, 
       tipo, 
       clase, 
+      proveedor,
       costoPrevio, 
     });
 
@@ -86,8 +87,36 @@ const getAllTransactions = async (req, res, next) => {
 
 //http://tu-servidor/api/sell?startDate=2024-01-01&endDate=2024-01-31
 
+// Controlador para eliminar una transacción de venta
+const deleteTransaction = async (req, res, next) => {
+  try {
+    const { transactionId } = req.params; // Obtener el ID de la transacción a eliminar
+
+    // Verificar si la transacción existe
+    const transaction = await Transaction.findByPk(transactionId);
+    if (!transaction) {
+      return res.status(404).json({ message: 'Transacción no encontrada' });
+    }
+
+    // Restaurar el stock del producto si es necesario
+    const product = await Product.findByPk(transaction.productId);
+    if (product) {
+      product.cantidad += transaction.cantidad; // Restablecer la cantidad del producto
+      await product.save();
+    }
+
+    // Eliminar la transacción
+    await transaction.destroy();
+
+    res.status(200).json({ message: 'Transacción eliminada con éxito' });
+  } catch (error) {
+    next(error); // Manejo de errores
+  }
+};
+
 
 module.exports = {
   sellProduct,
   getAllTransactions,
+  deleteTransaction,
 };

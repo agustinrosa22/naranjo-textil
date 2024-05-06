@@ -34,6 +34,9 @@ module.exports = (sequelize) => {
     costoPrevio: {
       type: DataTypes.FLOAT,
     },
+    proveedor: {
+      type: DataTypes.STRING,
+    },
     // Otros campos según sea necesario
   });
 
