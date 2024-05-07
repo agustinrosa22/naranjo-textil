@@ -46,7 +46,7 @@ const sellProduct = async (req, res, next) => {
 
 const getAllTransactions = async (req, res, next) => {
   try {
-    const { startDate, endDate } = req.query;
+    const { startDate, endDate, tipo, clase } = req.query;
 
     // Definir opciones de consulta para filtrar por fechas
     const options = {};
@@ -69,6 +69,22 @@ const getAllTransactions = async (req, res, next) => {
         },
       };
     }
+
+        // Añadir filtro por tipo si existe
+        if (tipo) {
+          if (!options.where) {
+            options.where = {};
+          }
+          options.where.tipo = tipo;
+        }
+    
+        // Añadir filtro por clase si existe
+        if (clase) {
+          if (!options.where) {
+            options.where = {};
+          }
+          options.where.clase = clase;
+        }
 
     // Consultar las transacciones con las opciones de filtrado
     const transactions = await Transaction.findAll(options);
